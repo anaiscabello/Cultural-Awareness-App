@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import _ from 'lodash';
 
 // Library
-import { getCultures } from '../lib/cultures';
+import useListOfCultures from '../lib/hooks/useListOfCultures';
 
 // Components
 import List from './cultures/List';
@@ -12,11 +12,10 @@ import LoadingIndicator from '../components/LoadingIndicator';
 import Error from '../components/Error';
 
 /**
- * Takes in a list of cultures, and filters it according to
- * provided options
+ * Takes in a list of cultures, and separates them based on their first letter (alphabetically)
  * @param {Array<Culture>} cultures 
  */
-function filterCultures(cultures) {
+function sectionizeCultures(cultures) {
     const sorted = _.sortBy(cultures, (c) => c.title);
     const sections = {};
 
@@ -32,35 +31,19 @@ function filterCultures(cultures) {
 
 export default function Cultures({ route }) {
   // The list of cultures in the state
-  const [ cultures, setCultures ] = useState([]);
-  const [ loading, setLoading ] = useState(true);
-  const [ error, setError ] = useState(null);
+  const [ loading, error, cultures ] = useListOfCultures([]); // Only fetch the list of cultures during first render
+  const [ sections, setSections ] = useState({});
 
-  // Get the list of cultures
+  // Every time a new list of cultures is received, sectionize it
   useEffect(() => {
-    setLoading(true); // Start loading
-    setError(null); // No error yet
-    getCultures()
-      .then((newCultures) => {
-        // Filter cultures and set them in state
-        setCultures(filterCultures(newCultures));
-        setError(null); // Everything went smoothly
-      })
-      .catch((e) => {
-        // Something went wrong when fetching cultures
-        setError(e);
-        // TODO error handling
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []); // Only call this effect once (during the first render)
+    setSections(sectionizeCultures(cultures));
+  }, [cultures]);
 
   return (
     <View style={styles.container}>
       {error && <Error error={error} />}
       {loading && <LoadingIndicator />}
-      {!loading && <List sections={cultures} />}
+      {!loading && <List sections={sections} />}
     </View>
   );
 }
