@@ -2,6 +2,8 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 // Screens
 import CulturesScreen from './screens/Cultures';
@@ -10,20 +12,55 @@ import CreateInsightScreen from './screens/CreateInsight';
 import WorldMapScreen from './screens/WorldMap';
 import InfoScreen from './screens/Info';
 
-const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+const CulturesStack = createStackNavigator();
+
+function renderIcon(route, { focused, color, size }) {
+  let iconName;
+  
+  // Decide which icon to render
+  switch (route.name) {
+    case 'World Map':
+      iconName = focused ? 'globe' : 'globe-outline';
+      break;
+    case 'Cultures':
+      iconName = focused ? 'ios-people-circle' : 'ios-people-circle-outline';
+      break;
+    default:
+      iconName = focused ? 'information-circle' : 'information-circle-outline';
+      break;
+  }
+
+  return <Ionicons name={iconName} size={size} color={color} />;
+}
+
+function CulturesStackScreen() {
+  return (
+    <CulturesStack.Navigator initialRouteName="Cultures">
+      <CulturesStack.Screen name="Cultures" component={CulturesScreen} />
+      <CulturesStack.Screen name="Create an Insight" component={CreateInsightScreen} />
+      <CulturesStack.Screen name="Insights" component={InsightsScreen} />
+    </CulturesStack.Navigator>
+  )
+}
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Cultures">
-        <Stack.Screen name="Cultures" component={CulturesScreen} />
-        <Stack.Screen name="Insights" component={InsightsScreen} />
-        <Stack.Screen name="CreateInsight" component={CreateInsightScreen} />
-        <Stack.Screen name="Insight" component={CulturesScreen} />
-        <Stack.Screen name="Settings" component={CulturesScreen} />
-        <Stack.Screen name="WorldMap" component={WorldMapScreen} />
-        <Stack.Screen name="Info" component={InfoScreen} />
-      </Stack.Navigator>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: (options) => renderIcon(route, options),
+        })}
+        tabBarOptions={{
+          activeTintColor: 'tomato',
+          inactiveTintColor: 'gray',
+        }}
+        initialRouteName="Cultures"
+      >
+        <Tab.Screen name="World Map" component={WorldMapScreen} />
+        <Tab.Screen name="Cultures" component={CulturesStackScreen} />
+        <Tab.Screen name="Info" component={InfoScreen} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }
