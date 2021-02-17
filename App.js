@@ -11,6 +11,7 @@ import InsightsScreen from './screens/Insights';
 import CreateInsightScreen from './screens/CreateInsight';
 import WorldMapScreen from './screens/WorldMap';
 import InfoScreen from './screens/Info';
+import SettingsScreen from './screens/Settings';
 
 const Tab = createBottomTabNavigator();
 const CulturesStack = createStackNavigator();
@@ -40,6 +41,7 @@ function CulturesStackScreen() {
       <CulturesStack.Screen name="Cultures" component={CulturesScreen} />
       <CulturesStack.Screen name="Create an Insight" component={CreateInsightScreen} />
       <CulturesStack.Screen name="Insights" component={InsightsScreen} />
+      <CulturesStack.Screen name="Settings" component={SettingsScreen} />
     </CulturesStack.Navigator>
   )
 }
