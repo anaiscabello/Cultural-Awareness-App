@@ -7,6 +7,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import CulturesScreen from './screens/Cultures';
 import InsightsScreen from './screens/Insights';
 import CreateInsightScreen from './screens/CreateInsight';
+import WorldMapScreen from './screens/WorldMap';
+import InfoScreen from './screens/Info';
 
 const Stack = createStackNavigator();
 
@@ -19,8 +21,8 @@ export default function App() {
         <Stack.Screen name="CreateInsight" component={CreateInsightScreen} />
         <Stack.Screen name="Insight" component={CulturesScreen} />
         <Stack.Screen name="Settings" component={CulturesScreen} />
-        <Stack.Screen name="WorldMap" component={CulturesScreen} />
-        <Stack.Screen name="Info" component={CulturesScreen} />
+        <Stack.Screen name="WorldMap" component={WorldMapScreen} />
+        <Stack.Screen name="Info" component={InfoScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -6,9 +6,9 @@ import _ from 'lodash';
 // Components
 import NavigationContainer from '../components/NavigationContainer';
 
-export default function CreateInsight({ route }) {
+export default function Info({ route }) {
   return (
-    <NavigationContainer activeTab={NavigationContainer.Tabs.Cultures}>
+    <NavigationContainer activeTab={NavigationContainer.Tabs.Info}>
       <View style={styles.container}>
         <Text>Nothing to see here!</Text>
       </View>

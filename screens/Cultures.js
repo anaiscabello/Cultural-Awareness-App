@@ -1,4 +1,3 @@
-import 'react-native-gesture-handler';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import _ from 'lodash';
@@ -10,6 +9,7 @@ import useListOfCultures from '../lib/hooks/useListOfCultures';
 import List from './cultures/List';
 import LoadingIndicator from '../components/LoadingIndicator';
 import Error from '../components/Error';
+import NavigationContainer from '../components/NavigationContainer';
 
 /**
  * Takes in a list of cultures, and separates them based on their first letter (alphabetically)
@@ -40,11 +40,13 @@ export default function Cultures({ route }) {
   }, [cultures]);
 
   return (
-    <View style={styles.container}>
-      {error && <Error error={error} />}
-      {loading && <LoadingIndicator />}
-      {!loading && <List sections={sections} />}
-    </View>
+    <NavigationContainer activeTab={NavigationContainer.Tabs.Cultures}>
+      <View style={styles.container}>
+        {error && <Error error={error} />}
+        {loading && <LoadingIndicator />}
+        {!loading && <List sections={sections} />}
+      </View>
+    </NavigationContainer>
   );
 }
 
@@ -52,7 +54,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
+    alignItems: 'stretch',
     justifyContent: 'center',
   },
 });

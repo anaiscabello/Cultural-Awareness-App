@@ -1,8 +1,8 @@
 // Libraries
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { View } from 'react-native';
+import { View } from 'react-native'
 
 // Components
 import ListSection from './ListSection';
