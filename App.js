@@ -54,7 +54,7 @@ export default function App() {
           tabBarIcon: (options) => renderIcon(route, options),
         })}
         tabBarOptions={{
-          activeTintColor: 'tomato',
+          activeTintColor: 'blue',
           inactiveTintColor: 'gray',
         }}
         initialRouteName="Cultures"

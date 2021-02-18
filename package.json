@@ -8,6 +8,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.13.4",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "^5.11.7",
     "@react-navigation/native": "^5.9.2",
@@ -16,6 +17,7 @@
     "expo-splash-screen": "~0.8.0",
     "expo-status-bar": "~1.0.3",
     "expo-updates": "~0.4.0",
+    "fuse.js": "^6.4.6",
     "lodash": "^4.17.20",
     "prop-types": "^15.7.2",
     "react": "16.13.1",
@@ -24,8 +26,10 @@
     "react-native-gesture-handler": "^1.10.1",
     "react-native-safe-area-context": "3.1.9",
     "react-native-screens": "~2.15.2",
+    "react-native-svg": "12.1.0",
     "react-native-unimodules": "~0.12.0",
-    "react-native-web": "~0.13.12"
+    "react-native-web": "~0.13.12",
+    "react-simple-maps": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
