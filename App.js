@@ -41,7 +41,7 @@ function CulturesStackScreen() {
       <CulturesStack.Screen name="Cultures" component={CulturesScreen} />
       <CulturesStack.Screen name="Create an Insight" component={CreateInsightScreen} />
       <CulturesStack.Screen name="Insights" component={InsightsScreen} />
-      <CulturesStack.Screen name="Settings" component={SettingsScreen} />
+      <CulturesStack.Screen name="Filter Cultures" component={SettingsScreen} />
     </CulturesStack.Navigator>
   )
 }

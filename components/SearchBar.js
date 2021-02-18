@@ -30,6 +30,12 @@ const styles = StyleSheet.create({
     }
 });
 
+/**
+ * Renders a search bar
+ * @param {Function} onInput called whenever input changes (after debounce) 
+ * @param {String} placeholder
+ * @param {Number} debounceDelay the minimum delay between successive onInput calls
+ */
 export default function SearchBar({ onInput, placeholder = 'Search', debounceDelay = 300 }) {
     const [value, setValue] = useState('');
 

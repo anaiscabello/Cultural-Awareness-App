@@ -1,7 +1,9 @@
+// Libraries
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import Fuse from 'fuse.js';
 import _ from 'lodash';
+import { Ionicons } from '@expo/vector-icons'; 
 
 // Library
 import { getDeviceFilterOptions, setDeviceFilterOptions } from '../lib/filters';
@@ -25,6 +27,15 @@ const styles = StyleSheet.create({
     height: 60,
     padding: 10,
     backgroundColor: '#F9F9F9',
+    flexDirection: 'row'
+  },
+  toolbarSearchContainer: {
+    flex: 1,
+  },
+  toolbarFilterContainer: {
+    width: 40,
+    paddingTop: 7,
+    paddingLeft: 12
   }
 });
 
@@ -67,7 +78,7 @@ function filterCultures(cultures, options = { search: '' }) {
   return filtered;
 }
 
-export default function Cultures({ route }) {
+export default function Cultures({ route, navigation }) {
   // The list of cultures in the state
   const [ loading, error, cultures ] = useListOfCultures([]); // Only fetch the list of cultures during first render
   const [ filteredList, setFilteredList ] = useState([]);
@@ -106,10 +117,17 @@ export default function Cultures({ route }) {
   return (
     <View style={styles.container}>
       <View style={styles.toolbarContainer}>
-        <SearchBar
-          placeholder='Search'
-          onInput={setSearchInput}
-        />
+        <View style={styles.toolbarSearchContainer}>
+          <SearchBar
+            placeholder='Search'
+            onInput={setSearchInput}
+          />
+        </View>
+        <TouchableOpacity onPress={() => {navigation.navigate('Filter Cultures')}}>
+          <View style={styles.toolbarFilterContainer}>
+            <Ionicons name="ios-filter-sharp" size={24} color="black" />
+          </View>
+        </TouchableOpacity>
       </View>
       {error && <Error error={error} />}
       {loading && <LoadingIndicator />}
