@@ -29,12 +29,13 @@
     "react-native-svg": "12.1.0",
     "react-native-unimodules": "~0.12.0",
     "react-native-web": "~0.13.12",
-    "react-simple-maps": "^2.3.0"
+    "signals": "^1.0.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
     "babel-jest": "~25.2.6",
     "jest": "~25.2.6",
+    "react-native-svg-transformer": "^0.14.3",
     "react-test-renderer": "~16.13.1"
   },
   "jest": {

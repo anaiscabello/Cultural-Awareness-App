@@ -1,13 +1,13 @@
 // Libraries
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 import Fuse from 'fuse.js';
 import _ from 'lodash';
 import { Ionicons } from '@expo/vector-icons'; 
 
 // Library
-import { getDeviceFilterOptions, setDeviceFilterOptions } from '../lib/filters';
-import useListOfCultures from '../lib/hooks/useListOfCultures';
+import { getDeviceFilterOptions, setDeviceFilterOptions, OnFilterOptionsChanged } from '../lib/filters';
+import useFilteredCultures from '../lib/hooks/useFilteredCultures';
 
 // Components
 import List from './cultures/List';
@@ -33,9 +33,29 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   toolbarFilterContainer: {
+    position: 'relative',
     width: 40,
     paddingTop: 7,
     paddingLeft: 12
+  },
+  filterBadge: {
+    position: 'absolute',
+    top: 5,
+    right: 0,
+    width: 15,
+    height: 15,
+    fontSize: 12,
+    borderRadius: 7.5,
+    backgroundColor: 'tomato',
+  },
+  filterBadgeText: {
+    color: '#fff',
+    fontSize: 12,
+    textAlign: 'center',
+  },
+  emptyContainer: {
+    padding: 20,
+    textAlign: 'center',
   }
 });
 
@@ -59,60 +79,55 @@ function sectionizeCultures(cultures) {
 }
 
 /**
- * Take in filter options and filters the list of cultures
- * @param {*} cultures 
+ * Takes in a search parameter and filters the list of cultures
+ * @param {Array<Culture>} cultures
+ * @param {String} search 
  */
-function filterCultures(cultures, options = { search: '' }) {
+function searchCultures(cultures, search) {
   let filtered = cultures;
-
-  // If a search is wanted, filter it
-  if (options.search) {
+  if (search) {
     // Use Fuse.js to perform a fuzzy search
     const fuse = new Fuse(filtered, {
       includeScore: true,
       keys: ['title'],
     });
-    filtered = fuse.search(options.search).map((fuseObject) => fuseObject.item);
+    filtered = fuse.search(search).map((fuseObject) => fuseObject.item);
   }
-  // TODO add other filters (categories etc)
   return filtered;
 }
 
 export default function Cultures({ route, navigation }) {
   // The list of cultures in the state
-  const [ loading, error, cultures ] = useListOfCultures([]); // Only fetch the list of cultures during first render
-  const [ filteredList, setFilteredList ] = useState([]);
-  const [ filterOptions, setFilterOptions ] = useState({});
+  const [ loading, error, cultures ] = useFilteredCultures([]); // Only fetch the list of cultures during first render
+  const [ searchFilteredCultures, setSearchFilteredCultures ] = useState([]);
   const [ searchInput, setSearchInput] = useState('');
   const [ sections, setSections ] = useState({});
+  const [ filterBadge, setFilterBadge ] = useState(0);
 
-  // Load initial filter options
+  // Every time a new list of cultures is received or filters change, re search
   useEffect(() => {
-    getDeviceFilterOptions()
-      .then(setFilterOptions);
-  }, []);
-
-  // When search input changes, reflect the change in the filter options
-  // (both in component and in the device storage)
-  useEffect(() => {
-    const newFilterOptions = {
-      ...filterOptions,
-      search: searchInput,
-    };
-    setDeviceFilterOptions(newFilterOptions);
-    setFilterOptions(newFilterOptions);
-  }, [searchInput]);
-
-  // Every time a new list of cultures is received or filters change, re filter based on filter options 
-  useEffect(() => {
-    setFilteredList(filterCultures(cultures, filterOptions));
-  }, [cultures, filterOptions]);
+    setSearchFilteredCultures(searchCultures(cultures, searchInput));
+  }, [cultures, searchInput]);
 
   // Every time a new list is filtered, sectionize it
   // and create a search index
   useEffect(() => {
-    setSections(sectionizeCultures(filteredList));
-  }, [filteredList]);
+    setSections(sectionizeCultures(searchFilteredCultures));
+  }, [searchFilteredCultures]);
+
+  // Reflect the number of filters applied in the filter badge
+  useEffect(() => {
+    const handleChange = () => {
+      getDeviceFilterOptions().then((options) => {
+        setFilterBadge(options.disabledCategoryIds ? options.disabledCategoryIds.length : 0);
+      });
+    };
+
+    OnFilterOptionsChanged.add(handleChange);
+    handleChange();
+
+    return () => OnFilterOptionsChanged.remove(handleChange);
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -126,9 +141,15 @@ export default function Cultures({ route, navigation }) {
         <TouchableOpacity onPress={() => {navigation.navigate('Filter Cultures')}}>
           <View style={styles.toolbarFilterContainer}>
             <Ionicons name="ios-filter-sharp" size={24} color="black" />
+            {filterBadge > 0 ? <View style={styles.filterBadge}>
+              <Text style={styles.filterBadgeText}>{filterBadge}</Text>
+            </View> : false}
           </View>
         </TouchableOpacity>
       </View>
+      {searchFilteredCultures.length ? false : <View style={styles.emptyContainer}>
+        <Text>We couldn't find any relevant cultures. Did you check your filters?</Text>
+      </View>}
       {error && <Error error={error} />}
       {loading && <LoadingIndicator />}
       {!loading && <List sections={sections} />}

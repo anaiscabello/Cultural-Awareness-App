@@ -1,7 +1,8 @@
 // Libraries
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Text, View , StyleSheet} from 'react-native';
+import { Text, View , StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import { Ionicons } from '@expo/vector-icons'; 
 
@@ -40,19 +41,21 @@ const styles = StyleSheet.create({
 
 
 export default function ListEntry({ culture }) {
+    const navigation = useNavigation();
     return (
-        <View style={styles.container}>        
-            <View style={styles.titleContainer}>
-                <Text>{culture.title}</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Insights', {culture})}>
+            <View style={styles.container}>        
+                <View style={styles.titleContainer}>
+                    <Text>{culture.title}</Text>
+                </View>
+                <View style={styles.numInsightsContainer}> 
+                    <Text style={styles.numInsightsText}>{culture.numInsights}</Text>
+                </View>
+                <View style={styles.iconContainer}>
+                    <Ionicons name="chevron-forward" size={20} color="#999" />
+                </View>
             </View>
-            <View style={styles.numInsightsContainer}> 
-                <Text style={styles.numInsightsText}>{culture.numInsights}</Text>
-            </View>
-            <View style={styles.iconContainer}>
-                <Ionicons name="chevron-forward" size={20} color="#999" />
-            </View>
-        </View>
-        
+        </TouchableOpacity>
     );
 }
 
