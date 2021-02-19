@@ -56,6 +56,10 @@ const styles = StyleSheet.create({
   emptyContainer: {
     padding: 20,
     textAlign: 'center',
+  },
+  emptyContainerText: {
+    textAlign: 'center',
+    color: '#999',
   }
 });
 
@@ -148,7 +152,7 @@ export default function Cultures({ route, navigation }) {
         </TouchableOpacity>
       </View>
       {searchFilteredCultures.length ? false : <View style={styles.emptyContainer}>
-        <Text>We couldn't find any relevant cultures. Did you check your filters?</Text>
+        <Text style={styles.emptyContainerText}>We couldn't find any relevant cultures. Did you check your filters?</Text>
       </View>}
       {error && <Error error={error} />}
       {loading && <LoadingIndicator />}
