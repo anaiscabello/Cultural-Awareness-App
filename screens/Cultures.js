@@ -3,17 +3,15 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 import Fuse from 'fuse.js';
 import _ from 'lodash';
-import { Ionicons } from '@expo/vector-icons'; 
 
 // Library
-import { getDeviceFilterOptions, setDeviceFilterOptions, OnFilterOptionsChanged } from '../lib/filters';
 import useFilteredCultures from '../lib/hooks/useFilteredCultures';
 
 // Components
 import List from './cultures/List';
 import LoadingIndicator from '../components/LoadingIndicator';
 import Error from '../components/Error';
-import SearchBar from '../components/SearchBar';
+import Toolbar from './cultures/Toolbar';
 
 // Styles
 const styles = StyleSheet.create({
@@ -22,36 +20,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'stretch',
     justifyContent: 'flex-start',
-  },
-  toolbarContainer: {
-    height: 60,
-    padding: 10,
-    backgroundColor: '#F9F9F9',
-    flexDirection: 'row'
-  },
-  toolbarSearchContainer: {
-    flex: 1,
-  },
-  toolbarFilterContainer: {
-    position: 'relative',
-    width: 40,
-    paddingTop: 7,
-    paddingLeft: 12
-  },
-  filterBadge: {
-    position: 'absolute',
-    top: 5,
-    right: 0,
-    width: 15,
-    height: 15,
-    fontSize: 12,
-    borderRadius: 7.5,
-    backgroundColor: 'tomato',
-  },
-  filterBadgeText: {
-    color: '#fff',
-    fontSize: 12,
-    textAlign: 'center',
   },
   emptyContainer: {
     padding: 20,
@@ -106,7 +74,6 @@ export default function Cultures({ route, navigation }) {
   const [ searchFilteredCultures, setSearchFilteredCultures ] = useState([]);
   const [ searchInput, setSearchInput] = useState('');
   const [ sections, setSections ] = useState({});
-  const [ filterBadge, setFilterBadge ] = useState(0);
 
   // Every time a new list of cultures is received or filters change, re search
   useEffect(() => {
@@ -119,39 +86,10 @@ export default function Cultures({ route, navigation }) {
     setSections(sectionizeCultures(searchFilteredCultures));
   }, [searchFilteredCultures]);
 
-  // Reflect the number of filters applied in the filter badge
-  useEffect(() => {
-    const handleChange = () => {
-      getDeviceFilterOptions().then((options) => {
-        setFilterBadge(options.disabledCategoryIds ? options.disabledCategoryIds.length : 0);
-      });
-    };
-
-    OnFilterOptionsChanged.add(handleChange);
-    handleChange();
-
-    return () => OnFilterOptionsChanged.remove(handleChange);
-  }, [])
-
   return (
     <View style={styles.container}>
-      <View style={styles.toolbarContainer}>
-        <View style={styles.toolbarSearchContainer}>
-          <SearchBar
-            placeholder='Search'
-            onInput={setSearchInput}
-          />
-        </View>
-        <TouchableOpacity onPress={() => {navigation.navigate('Filter Cultures')}}>
-          <View style={styles.toolbarFilterContainer}>
-            <Ionicons name="ios-filter-sharp" size={24} color="black" />
-            {filterBadge > 0 ? <View style={styles.filterBadge}>
-              <Text style={styles.filterBadgeText}>{filterBadge}</Text>
-            </View> : false}
-          </View>
-        </TouchableOpacity>
-      </View>
-      {searchFilteredCultures.length ? false : <View style={styles.emptyContainer}>
+      <Toolbar onSearch={setSearchInput} />
+      {(loading || searchFilteredCultures.length > 0) ? false : <View style={styles.emptyContainer}>
         <Text style={styles.emptyContainerText}>We couldn't find any relevant cultures. Did you check your filters?</Text>
       </View>}
       {error && <Error error={error} />}
