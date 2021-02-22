@@ -21,17 +21,18 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         flex: 1,
     },
-    numInsightsContainer:{
-        width: 30,
-        backgroundColor: "#999",
-        borderRadius: 10,
-        justifyContent: "center",
-        alignContent: "center",
-        flexDirection: "row",
-        padding: 3,
+    confidenceScoreContainer:{
+        width: 24,
+        marginLeft: 5,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignContent: 'center',
     },
-    numInsightsText:{
-        color: "#FFFFFF"
+    confidenceScore: {
+        alignSelf: 'center',
+        width: 15,
+        height: 15,
+        borderRadius: 7.5,
     },
     iconContainer:{
         alignSelf: 'center',
@@ -41,16 +42,16 @@ const styles = StyleSheet.create({
 });
 
 
-export default function ListEntry({ culture }) {
+export default function ListEntry({ insight }) {
     const navigation = useNavigation();
     return (
-        <TouchableOpacity onPress={() => navigation.navigate('Insights', {culture})}>
+        <TouchableOpacity onPress={() => navigation.navigate('Insight', {insight})}>
             <View style={styles.container}>        
                 <View style={styles.titleContainer}>
-                    <Text>{culture.title}</Text>
+                    <Text>{insight.title}</Text>
                 </View>
-                <View style={styles.numInsightsContainer}> 
-                    <Text style={styles.numInsightsText}>{culture.numInsights}</Text>
+                <View style={styles.confidenceScoreContainer}>
+                    <View style={[styles.confidenceScore, {backgroundColor: insight.confidenceScore.color}]} />
                 </View>
                 <View style={styles.iconContainer}>
                     <Ionicons name="chevron-forward" size={20} color="#999" />
@@ -61,8 +62,10 @@ export default function ListEntry({ culture }) {
 }
 
 ListEntry.propTypes = {
-    culture: PropTypes.shape({
+    insight: PropTypes.shape({
         title: PropTypes.string.isRequired,
-        numInsights: PropTypes.number.isRequired,
+        confidenceScore: PropTypes.shape({
+            color: PropTypes.string.isRequired,
+        }).isRequired,
     }).isRequired,
 };
