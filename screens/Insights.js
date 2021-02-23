@@ -53,7 +53,7 @@ function searchInsights(insights, search) {
 export default function Insights({ route, navigation }) {
   // The list of insights in the state
   const culture = route.params.culture;
-  const [ loading, error, insights ] = useListOfInsights(culture.id, []); // Only fetch the list of insights during first render
+  const [ loading, error, insights ] = useListOfInsights(culture.id, [culture.id]); // Only fetch the list of insights during first render
   const [ searchFilteredInsights, setSearchFilteredInsights ] = useState([]);
   const [ searchInput, setSearchInput] = useState('');
 
