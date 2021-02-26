@@ -15,6 +15,22 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     justifyContent: 'flex-start',
   },
+  subHeadingContainer:{
+    padding: 10,
+    borderBottomColor: "rgba(0, 0, 0, 0.1)",
+    borderBottomWidth: 1,
+  },
+  subHeadingText:{
+    color: "#3C3C4399"
+  },
+  keyInsight:{
+    marginLeft: 10,
+    padding: 10,
+    paddingLeft: 0,
+    borderBottomColor: "rgba(0, 0, 0, 0.1)",
+    borderBottomWidth: 1,
+    flexDirection: "row",
+  },
 });
 
 export default function Insight({ route }) {
@@ -34,11 +50,11 @@ export default function Insight({ route }) {
           <Text>{insight.numVotes}/{insight.totalVoters} votes</Text>
         </View>
       </View>
-      <View>
-        <Text>KEY INSIGHTS</Text>
+      <View style={styles.subHeadingContainer}>
+        <Text style={styles.subHeadingText}>KEY INSIGHTS</Text>
       </View>
       
-      <View>
+      <View style={styles.keyInsight}>
         {insight.keyInsights.map((ki, i) => {
         return <KeyInsight key={i} keyInsight={ki} />;})}
       </View>
@@ -47,8 +63,8 @@ export default function Insight({ route }) {
         <Text>{insight.description}</Text>
       </View>
 
-      <View>
-        <Text>SOURCES</Text>
+      <View style={styles.subHeadingContainer}>
+        <Text style={styles.subHeadingText}>SOURCES</Text>
       </View>
 
       <View>
