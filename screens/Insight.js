@@ -1,16 +1,11 @@
 // Libraries
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import _ from 'lodash';
-import KeyInsight from './specificInsights/KeyInsight';
-import Source from './specificInsights/Source';
-
-// Library
-import useInsightDetails from '../lib/hooks/useInsightDetails';
 
 // Components
-import LoadingIndicator from '../components/LoadingIndicator';
-import Error from '../components/Error';
+import KeyInsight from './specificInsights/KeyInsight';
+import Source from './specificInsights/Source';
 
 // Styles
 const styles = StyleSheet.create({
@@ -22,7 +17,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Insight({ route, navigation }) {
+export default function Insight({ route }) {
   /** @type {Insight} */
   const insight = route.params.insight;
 
@@ -36,7 +31,7 @@ export default function Insight({ route, navigation }) {
           <Text>{insight.confidenceScore.title}</Text>
         </View>
         <View>
-          <Text>{insight.numVotes}/{insight.totalVotes} votes</Text>
+          <Text>{insight.numVotes}/{insight.totalVoters} votes</Text>
         </View>
       </View>
       <View>
@@ -44,8 +39,8 @@ export default function Insight({ route, navigation }) {
       </View>
       
       <View>
-        {insight.keyInsights.map((ki) => {
-        return <KeyInsight keyInsight={ki} />;})}
+        {insight.keyInsights.map((ki, i) => {
+        return <KeyInsight key={i} keyInsight={ki} />;})}
       </View>
 
       <View>
@@ -58,7 +53,7 @@ export default function Insight({ route, navigation }) {
 
       <View>
         {insight.sources.map((ss) => {
-        return <Source source={ss} />;})}
+        return <Source key={ss.title} source={ss} />;})}
       </View>
 
       <View>
