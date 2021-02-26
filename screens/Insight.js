@@ -23,14 +23,6 @@ const styles = StyleSheet.create({
   subHeadingText:{
     color: "#3C3C4399"
   },
-  keyInsight:{
-    marginLeft: 10,
-    padding: 10,
-    paddingLeft: 0,
-    borderBottomColor: "rgba(0, 0, 0, 0.1)",
-    borderBottomWidth: 1,
-    flexDirection: "row",
-  },
 });
 
 export default function Insight({ route }) {
@@ -54,7 +46,7 @@ export default function Insight({ route }) {
         <Text style={styles.subHeadingText}>KEY INSIGHTS</Text>
       </View>
       
-      <View style={styles.keyInsight}>
+      <View>
         {insight.keyInsights.map((ki, i) => {
         return <KeyInsight key={i} keyInsight={ki} />;})}
       </View>
