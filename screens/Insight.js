@@ -7,6 +7,8 @@ import _ from 'lodash';
 import KeyInsight from './specificInsights/KeyInsight';
 import Source from './specificInsights/Source';
 
+
+
 // Styles
 const styles = StyleSheet.create({
   container: {
@@ -14,15 +16,30 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'stretch',
     justifyContent: 'flex-start',
+    padding: 10,
   },
   subHeadingContainer:{
-    padding: 10,
     borderBottomColor: "rgba(0, 0, 0, 0.1)",
     borderBottomWidth: 1,
   },
-  subHeadingText:{
+
+  confidenceContainer:{
+    flexDirection: 'row',
+  },
+  confidenceInnerContainer:{
+    flex: 1
+  },
+  greyText:{
     color: "#3C3C4399"
   },
+  blueText:{
+    color: "#006DFF"
+  },
+  sectionContainer:{
+    paddingTop: 15,
+    paddingBottom: 15,
+  },
+
 });
 
 export default function Insight({ route }) {
@@ -34,16 +51,16 @@ export default function Insight({ route }) {
       <View>
         <Text>{insight.title}</Text>
       </View>
-      <View>
-        <View>
-          <Text>{insight.confidenceScore.title}</Text>
+      <View style={[styles.sectionContainer, styles.confidenceContainer]}>
+        <View style={styles.confidenceInnerContainer}>
+          <Text style={{color: insight.confidenceScore.color}}>{insight.confidenceScore.title}</Text>
         </View>
-        <View>
-          <Text>{insight.numVotes}/{insight.totalVoters} votes</Text>
+        <View style={[styles.confidenceInnerContainer, {textAlign: 'right'}]}>
+          <Text style={styles.greyText}>{insight.numVotes}/{insight.totalVoters} votes</Text>
         </View>
       </View>
       <View style={styles.subHeadingContainer}>
-        <Text style={styles.subHeadingText}>KEY INSIGHTS</Text>
+        <Text style={styles.greyText}>KEY INSIGHTS</Text>
       </View>
       
       <View>
@@ -51,21 +68,24 @@ export default function Insight({ route }) {
         return <KeyInsight key={i} keyInsight={ki} />;})}
       </View>
 
-      <View>
+      <View style={styles.sectionContainer}>
         <Text>{insight.description}</Text>
       </View>
 
       <View style={styles.subHeadingContainer}>
-        <Text style={styles.subHeadingText}>SOURCES</Text>
+        <Text style={styles.greyText}>SOURCES</Text>
       </View>
 
+    <View>
       <View>
         {insight.sources.map((ss) => {
         return <Source key={ss.title} source={ss} />;})}
       </View>
+    </View>
 
-      <View>
-        <Text>Sources verified by {insight.sourcesVerifiedBy}</Text>
+      <View style={styles.sectionContainer}>
+        <Text style={styles.greyText}>Sources verified by <Text style={styles.blueText}>{insight.sourcesVerifiedBy}</Text></Text>
+       
       </View>
     </View>
   );
