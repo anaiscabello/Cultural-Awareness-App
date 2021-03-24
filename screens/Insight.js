@@ -7,7 +7,7 @@ import _ from 'lodash';
 import KeyInsight from './specificInsights/KeyInsight';
 import Source from './specificInsights/Source';
 
-
+//rtur
 
 // Styles
 const styles = StyleSheet.create({
@@ -21,13 +21,6 @@ const styles = StyleSheet.create({
   subHeadingContainer:{
     borderBottomColor: "rgba(0, 0, 0, 0.1)",
     borderBottomWidth: 1,
-  },
-
-  confidenceContainer:{
-    flexDirection: 'row',
-  },
-  confidenceInnerContainer:{
-    flex: 1
   },
   greyText:{
     color: "#3C3C4399"
@@ -51,14 +44,7 @@ export default function Insight({ route }) {
       <View>
         <Text>{insight.title}</Text>
       </View>
-      <View style={[styles.sectionContainer, styles.confidenceContainer]}>
-        <View style={styles.confidenceInnerContainer}>
-          <Text style={{color: insight.confidenceScore.color}}>{insight.confidenceScore.title}</Text>
-        </View>
-        <View style={[styles.confidenceInnerContainer, {textAlign: 'right'}]}>
-          <Text style={styles.greyText}>{insight.numVotes}/{insight.totalVoters} votes</Text>
-        </View>
-      </View>
+
       <View style={styles.subHeadingContainer}>
         <Text style={styles.greyText}>KEY INSIGHTS</Text>
       </View>
