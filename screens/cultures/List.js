@@ -14,6 +14,7 @@ export default function List({ sections }) {
                 return <ListSection key={letter} letter={letter} cultures={sections[letter]} />;
             })}
         </View>
+        
     );
 }
 

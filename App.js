@@ -17,6 +17,7 @@ import InsightScreen from './screens/Insight';
 const Tab = createBottomTabNavigator();
 const CulturesStack = createStackNavigator();
 
+/*
 function renderIcon(route, { focused, color, size }) {
   let iconName;
   
@@ -35,6 +36,7 @@ function renderIcon(route, { focused, color, size }) {
 
   return <Ionicons name={iconName} size={size} color={color} />;
 }
+*/
 
 function CulturesStackScreen() {
   return (
@@ -60,22 +62,24 @@ function CulturesStackScreen() {
   )
 }
 
+
 export default function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: (options) => renderIcon(route, options),
-        })}
-        tabBarOptions={{
-          activeTintColor: 'blue',
-          inactiveTintColor: 'gray',
-        }}
+        // screenOptions={({ route }) => ({
+        //   tabBarIcon: (options) => renderIcon(route, options),
+        // })}
+        // tabBarOptions={{
+        //   activeTintColor: 'blue',
+        //   inactiveTintColor: 'gray',
+        // }}
         initialRouteName="Cultures"
+  
       >
-        <Tab.Screen name="World Map" component={WorldMapScreen} />
-        <Tab.Screen name="Cultures" component={CulturesStackScreen} />
-        <Tab.Screen name="Info" component={InfoScreen} />
+        <Tab.Screen name=" " component={CulturesStackScreen} />
+        {/* <Tab.Screen name="World Map" component={WorldMapScreen} />
+        <Tab.Screen name="Info" component={InfoScreen} /> */}
       </Tab.Navigator>
     </NavigationContainer>
   );

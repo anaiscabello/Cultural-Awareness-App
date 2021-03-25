@@ -48,9 +48,11 @@ export default function ListEntry({ insight }) {
         <TouchableOpacity onPress={() => navigation.navigate('Insight', {insight})}>
             <View style={styles.container}>        
                 <View style={styles.titleContainer}>
-                    <Text>{insight.title}</Text>
+                    <Text>Illness</Text>
                 </View>
-                
+                <View style={styles.titleContainer}>
+                    <Text>Health</Text>
+                </View>
                 <View style={styles.iconContainer}>
                     <Ionicons name="chevron-forward" size={20} color="#999" />
                 </View>
