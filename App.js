@@ -40,7 +40,7 @@ function CulturesStackScreen() {
   return (
     <CulturesStack.Navigator initialRouteName="Cultures">
       <CulturesStack.Screen name="Cultures" component={CulturesScreen} />
-      <CulturesStack.Screen name="Create an Insight" component={CreateInsightScreen} />
+      <CulturesStack.Screen name="Submit an Insight" component={CreateInsightScreen} />
       <CulturesStack.Screen
         name="Insights"
         component={InsightsScreen}

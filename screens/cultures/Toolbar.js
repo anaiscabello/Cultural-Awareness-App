@@ -79,6 +79,11 @@ export default function Toolbar({ onSearch }) {
           </View> : false}
         </View>
       </TouchableOpacity>
+      <TouchableOpacity onPress={() => {navigation.navigate('Submit an Insight')}}>
+        <View style={styles.toolbarFilterContainer}>
+          <Ionicons name="ios-add-circle-outline" size={24} color="black" />
+        </View>
+      </TouchableOpacity>
     </View>
   );
 }
