@@ -40,7 +40,6 @@ const styles = StyleSheet.create({
     },
 });
 
-
 export default function ListEntry({ culture }) {
     const navigation = useNavigation();
     return (
@@ -49,9 +48,9 @@ export default function ListEntry({ culture }) {
                 <View style={styles.titleContainer}>
                     <Text>{culture.title}</Text>
                 </View>
-                <View style={styles.numInsightsContainer}> 
+                {/*<View style={styles.numInsightsContainer}> 
                     <Text style={styles.numInsightsText}>{culture.numInsights}</Text>
-                </View>
+    </View>*/}
                 <View style={styles.iconContainer}>
                     <Ionicons name="chevron-forward" size={20} color="#999" />
                 </View>

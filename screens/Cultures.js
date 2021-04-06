@@ -5,7 +5,7 @@ import Fuse from 'fuse.js';
 import _ from 'lodash';
 
 // Library
-import useFilteredCultures from '../lib/hooks/useFilteredCultures';
+import useListOfCultures from '../lib/hooks/useListOfCultures';
 
 // Components
 import List from './cultures/List';
@@ -70,7 +70,7 @@ function searchCultures(cultures, search) {
 
 export default function Cultures({ route, navigation }) {
   // The list of cultures in the state
-  const [ loading, error, cultures ] = useFilteredCultures([]); // Only fetch the list of cultures during first render
+  const [ loading, error, cultures ] = useListOfCultures([]); // Only fetch the list of cultures during first render
   const [ searchFilteredCultures, setSearchFilteredCultures ] = useState([]);
   const [ searchInput, setSearchInput] = useState('');
   const [ sections, setSections ] = useState({});
