@@ -21,18 +21,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         flex: 1,
     },
-    numInsightsContainer:{
-        width: 30,
-        backgroundColor: "#999",
-        borderRadius: 10,
-        justifyContent: "center",
-        alignContent: "center",
-        flexDirection: "row",
-        padding: 3,
-    },
-    numInsightsText:{
-        color: "#FFFFFF"
-    },
     iconContainer:{
         alignSelf: 'center',
         width: 24,
@@ -43,14 +31,11 @@ const styles = StyleSheet.create({
 export default function ListEntry({ culture }) {
     const navigation = useNavigation();
     return (
-        <TouchableOpacity onPress={() => navigation.navigate('Insights', {culture})}>
+        <TouchableOpacity onPress={() => navigation.navigate('Categories', {culture})}>
             <View style={styles.container}>        
                 <View style={styles.titleContainer}>
-                    <Text>{culture.title}</Text>
+                    <Text>{culture.name}</Text>
                 </View>
-                {/*<View style={styles.numInsightsContainer}> 
-                    <Text style={styles.numInsightsText}>{culture.numInsights}</Text>
-    </View>*/}
                 <View style={styles.iconContainer}>
                     <Ionicons name="chevron-forward" size={20} color="#999" />
                 </View>
@@ -61,7 +46,6 @@ export default function ListEntry({ culture }) {
 
 ListEntry.propTypes = {
     culture: PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        numInsights: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
     }).isRequired,
 };

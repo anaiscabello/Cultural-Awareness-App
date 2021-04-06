@@ -21,19 +21,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         flex: 1,
     },
-    confidenceScoreContainer:{
-        width: 24,
-        marginLeft: 5,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignContent: 'center',
-    },
-    confidenceScore: {
-        alignSelf: 'center',
-        width: 15,
-        height: 15,
-        borderRadius: 7.5,
-    },
     iconContainer:{
         alignSelf: 'center',
         width: 24,
@@ -41,19 +28,22 @@ const styles = StyleSheet.create({
     },
 });
 
-
-export default function ListEntry({ insight }) {
+export default function ListEntry({ culture, category }) {
+    const navigation = useNavigation();
     return (
-        <View style={styles.container}>        
-            <View style={styles.titleContainer}>
-                <Text>{insight.text}</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Insights', {culture, category})}>
+            <View style={styles.container}>        
+                <View style={styles.titleContainer}>
+                    <Text>{category}</Text>
+                </View>
+                <View style={styles.iconContainer}>
+                    <Ionicons name="chevron-forward" size={20} color="#999" />
+                </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 }
 
 ListEntry.propTypes = {
-    insight: PropTypes.shape({
-        text: PropTypes.string.isRequired,
-    }).isRequired,
+    category: PropTypes.string.isRequired,
 };

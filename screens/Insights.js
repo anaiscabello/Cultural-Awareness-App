@@ -1,16 +1,11 @@
 // Libraries
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import Fuse from 'fuse.js';
 import _ from 'lodash';
 
-// Library
-import useListOfInsights from '../lib/hooks/useListOfInsights';
-
 // Components
 import List from './insights/List';
-import LoadingIndicator from '../components/LoadingIndicator';
-import Error from '../components/Error';
 import Toolbar from './insights/Toolbar';
 
 // Styles
@@ -37,13 +32,13 @@ const styles = StyleSheet.create({
  * @param {Array<Insight>} insights
  * @param {String} search 
  */
-function searchInsights(insights, search) {
-  let filtered = insights;
+function searchInsights(insights, category, search) {
+  let filtered = insights.filter(insights => insights.category === category);
   if (search) {
     // Use Fuse.js to perform a fuzzy search
     const fuse = new Fuse(filtered, {
       includeScore: true,
-      keys: ['title'],
+      keys: ['text']
     });
     filtered = fuse.search(search).map((fuseObject) => fuseObject.item);
   }
@@ -53,24 +48,21 @@ function searchInsights(insights, search) {
 export default function Insights({ route, navigation }) {
   // The list of insights in the state
   const culture = route.params.culture;
-  const [ loading, error, insights ] = useListOfInsights(culture.id, [culture.id]); // Only fetch the list of insights during first render
+  const category = route.params.category;
   const [ searchFilteredInsights, setSearchFilteredInsights ] = useState([]);
   const [ searchInput, setSearchInput] = useState('');
 
   // Every time a new list of cultures is received or filters change, re search
   useEffect(() => {
-    setSearchFilteredInsights(searchInsights(insights, searchInput));
-  }, [insights, searchInput]);
+    setSearchFilteredInsights(searchInsights(culture.insights, category, searchInput));
+  }, [searchInput]);
 
   return (
     <View style={styles.container}>
       <Toolbar onSearch={setSearchInput} />
-      {(loading || searchFilteredInsights.length > 0) ? false : <View style={styles.emptyContainer}>
+      {(searchFilteredInsights.length > 0) ? <List insights={searchFilteredInsights} /> : <View style={styles.emptyContainer}>
         <Text style={styles.emptyContainerText}>There are no insights for this culture yet.</Text>
       </View>}
-      {error && <Error error={error} />}
-      {loading && <LoadingIndicator />}
-      {!loading && <List insights={searchFilteredInsights} />}
     </View>
   );
 }

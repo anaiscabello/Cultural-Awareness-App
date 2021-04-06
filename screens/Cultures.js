@@ -37,11 +37,11 @@ const styles = StyleSheet.create({
  * @param {Array<Culture>} cultures 
  */
 function sectionizeCultures(cultures) {
-    const sorted = _.sortBy(cultures, (c) => c.title);
+    const sorted = _.sortBy(cultures, (c) => c.name);
     const sections = {};
 
     sorted.forEach((culture) => {
-        const letter = culture.title.slice(0, 1).toUpperCase();
+        const letter = culture.name.slice(0, 1).toUpperCase();
         // Initialize this particular letter in the sections hashmap
         sections[letter] = (letter in sections) ? sections[letter] : [];
         sections[letter].push(culture);
@@ -61,7 +61,7 @@ function searchCultures(cultures, search) {
     // Use Fuse.js to perform a fuzzy search
     const fuse = new Fuse(filtered, {
       includeScore: true,
-      keys: ['title'],
+      keys: ['name'],
     });
     filtered = fuse.search(search).map((fuseObject) => fuseObject.item);
   }

@@ -17,7 +17,7 @@ export default function List({ insights }) {
     <View style={styles.container}>
         {insights.map((insight) => {
             return (
-                <ListEntry key={insight.title} insight={insight} />
+                <ListEntry key={insight.text} insight={insight} />
             );
         })}
     </View>
